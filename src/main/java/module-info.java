@@ -4,6 +4,7 @@ module org.openjfx.JavaFXAplication {
 	requires javafx.media;
 	requires java.desktop;
 	requires javafx.graphics;
+	requires javafx.base;
 
 	exports Aplication;
 }
