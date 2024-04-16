@@ -1,4 +1,4 @@
-package Aplication;
+package app;
 
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;

@@ -1,4 +1,4 @@
-package Aplication;
+package app;
 
 public class SystemInfo {
 

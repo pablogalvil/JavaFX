@@ -6,5 +6,5 @@ module org.openjfx.JavaFXAplication {
 	requires javafx.graphics;
 	requires javafx.base;
 
-	exports Aplication;
+	exports app;
 }
