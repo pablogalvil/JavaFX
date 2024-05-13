@@ -73,7 +73,7 @@ public class EjemploVentanas extends Application {
 
 		stackpane.getChildren().add(new Label("Contenido de prueba"));
 
-		Scene scene = new Scene(stackpane, 300, 300);
+		Scene scene = new Scene(stackpane, 100, 100);
 
 		// Para bloquear a la ventana padre hay que definir quien es el padre con
 		// initOwner y poner la modalidad
@@ -91,7 +91,7 @@ public class EjemploVentanas extends Application {
 
 		PanelFormulario panelForm = new PanelFormulario();
 
-		Scene scene = new Scene(panelForm, 300, 300);
+		Scene scene = new Scene(panelForm, 600, 600);
 
 		// Añadimos un evento al boton del formulario
 		panelForm.btnAceptar.setOnAction(e -> {
