@@ -10,8 +10,7 @@ public class UtilsPruebaExamen {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 
 			// Creamos una conexion activa con BD
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost/koalasyavestrucestheinvasion", "root",
-					"");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost/koalasyavestruces", "root", "");
 
 			// Si no salta la excepcion devolvemos la conexion
 			return con;

@@ -5,12 +5,14 @@ import java.util.ArrayList;
 
 import app.model.AvestruzDAO;
 import app.model.AvestruzDO;
+import app.model.KoalaDO;
 import app.utils.UtilsPruebaExamen;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -33,40 +35,80 @@ public class examen2022 extends Application {
 
 		MenuBar barra = new MenuBar();
 
+		// Menu de archivo
 		Menu mArchivo = new Menu("Archivo");
 		MenuItem iCargar = new MenuItem("Cargar");
-		MenuItem iGuardar = new MenuItem("Guardar");
 		MenuItem iSalir = new MenuItem("Salir");
+		mArchivo.getItems().addAll(iCargar, iSalir);
 
-		mArchivo.getItems().addAll(iCargar, iGuardar, iSalir);
+		// Menu de Koala
+		Menu mKoalas = new Menu("Koalas");
+		MenuItem iDatos = new MenuItem("Mostrar Datos");
+		mKoalas.getItems().addAll(iDatos);
 
-		Menu mComponentes = new Menu("Componentes");
-		MenuItem iTarjetaGraf = new MenuItem("Tarjeta grafica");
-		MenuItem iMicroprocesadores = new MenuItem("Microprocesadores");
-		MenuItem iMemoria = new MenuItem("Memoria");
+		// Menu de Avestruz
+		Menu mAvestruz = new Menu("Avestruz");
+		MenuItem iDel = new MenuItem("Eliminar");
+		MenuItem iLoad = new MenuItem("Cargar");
+		mAvestruz.getItems().addAll(iDel, iLoad);
 
-		mComponentes.getItems().addAll(iTarjetaGraf, iMicroprocesadores, iMemoria);
+		// Le agregamos a la menuBar los menus creados anteriormente.
+		barra.getMenus().addAll(mArchivo, mKoalas, mAvestruz);
 
-		Menu mAyuda = new Menu("Ayuda");
-		MenuItem iAcercaDe = new MenuItem("Acerca de");
-		MenuItem iContacto = new MenuItem("Contacto");
+		// Mostramos el choiceBox de Avestruces
+		Label lblavestruces = new Label("Avestruz");
+		ChoiceBox<String> choiceAve = new ChoiceBox<>();
+		ScrollPane scroll1 = new ScrollPane();
+		scroll1.setContent(panelPrincipal);
+		// Cargamos en un arrayList todas las avestruces de la base de datos
 
-		mAyuda.getItems().addAll(iAcercaDe, iContacto);
-
-		barra.getMenus().addAll(mArchivo, mComponentes, mAyuda);
-
+		// TabPane
 		TabPane tabPane = new TabPane();
 
-		panelPrincipal.getChildren().addAll(barra, tabPane);
+		panelPrincipal.getChildren().addAll(barra, tabPane, lblavestruces, choiceAve);
 
-		Tab listaElementos = new Tab("Lista Elementos");
+		Tab listaElementos = new Tab("Lista de koalas");
 		Tab editar = new Tab("Editar");
 
 		listaElementos.setClosable(false);
 
 		tabPane.getTabs().addAll(listaElementos);
 
-		iTarjetaGraf.setOnAction(e -> {
+		iCargar.setOnAction(e -> {
+			// Meter valores en el choiceBox
+			for (int i = 0; i < avestruces.size(); i++) {
+				choiceAve.getItems().add(avestruces.get(i).getNombre());
+			}
+		});
+
+		choiceAve.setOnAction(e -> {
+
+			if (!panelPrincipal.getChildren().contains(choiceAve)) {
+
+				panelPrincipal.getChildren().add(choiceAve);
+			}
+			ArrayList<KoalaDO> koalas = AvestruzDAO.cargarInfoKoala(choiceAve.getValue(), examen2022.con);
+
+			// Bucle para mostrar los datos de cada koala
+			for (int i = 0; i < koalas.size(); i++) {
+				VBox panelKoala = new VBox();
+				panelKoala.getChildren().addAll(new Label(""), new Label("KOALA NUMERO: " + (i + 1)),
+						new Label("idKoala: " + koalas.get(i).getIdKoala()),
+						new Label("nombre: " + koalas.get(i).getNombre()),
+						new Label("nickGuerra: " + koalas.get(i).getNickGuerra()),
+						new Label("edad: " + koalas.get(i).getEdad()), new Label("color: " + koalas.get(i).getColor()),
+						new Label("fuerza: " + koalas.get(i).getFuerza()),
+						new Label("inteligencia: " + koalas.get(i).getInteligencia()),
+						new Label("horas de sueño: " + koalas.get(i).getHorasSueno()),
+						new Label("tiempoBerserk: " + koalas.get(i).getTiempoBerserk()),
+						new Label("Avestruz: " + koalas.get(i).getAvestruz_idAvestruz()),
+						new Label("Carrito: " + koalas.get(i).getCarritoGolf_idCarritoGolf()));
+				panelPrincipal.getChildren().add(panelKoala);
+			}
+
+		});
+
+		iDatos.setOnAction(e -> {
 			Paneles panel = new Paneles();
 		});
 
@@ -74,6 +116,7 @@ public class examen2022 extends Application {
 
 		listaElementos.setContent(panelElementos);
 
+		// Bucle para mostrar todos los datos del avestruz cuando pulse el boton editar
 		for (int i = 0; i < avestruces.size(); i++) {
 
 			Label lblComponente = new Label("Nombre :");
@@ -85,6 +128,8 @@ public class examen2022 extends Application {
 
 			int num = i;
 
+			// Le pasa a otra pestaña en la que puede editar los campos del avestruz
+			// cuando le de al boton editar
 			btnEditar.setOnAction(e -> {
 				ScrollPane scroll = new ScrollPane();
 
@@ -104,7 +149,7 @@ public class examen2022 extends Application {
 				TextField txtNivelMalaLeche = new TextField(String.valueOf(avestruces.get(num).getNivelMalaLeche()));
 				TextField txtNumHuevos = new TextField(String.valueOf(avestruces.get(num).getNumHuevos()));
 
-				Button btnConfirm = new Button("Editar");
+				Button btnConfirm = new Button("Confirmar");
 
 				panelEditar.getChildren().addAll(lblNombre, txtNombre, lblNickGuerra, txtNickGuerra, lblEdad, txtEdad,
 						lblAltura, txtAltura, lblNivelMalaLeche, txtNivelMalaLeche, lblNumHuevos, txtNumHuevos,
@@ -160,7 +205,7 @@ public class examen2022 extends Application {
 
 		Scene scene = new Scene(panelPrincipal, 1000, 800);
 
-		stage.setTitle("Examen 2022");
+		stage.setTitle("Examen JavaFX");
 		stage.setScene(scene);
 		stage.show();
 	}

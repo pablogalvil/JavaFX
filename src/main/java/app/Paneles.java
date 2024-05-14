@@ -26,6 +26,7 @@ public class Paneles {
 
 		ArrayList<AvestruzDO> avestruces = AvestruzDAO.cargarAvestruz(examen2022.con);
 
+		// Meter valores en el choiceBox
 		for (int i = 0; i < avestruces.size(); i++) {
 			choice.getItems().add(avestruces.get(i).getNombre());
 		}
@@ -38,6 +39,7 @@ public class Paneles {
 			panelVertical.getChildren().add(choice);
 			ArrayList<KoalaDO> koalas = AvestruzDAO.cargarInfoKoala(choice.getValue(), examen2022.con);
 
+			// Bucle para mostrar los datos de cada koala
 			for (int i = 0; i < koalas.size(); i++) {
 				VBox panelKoala = new VBox();
 				panelKoala.getChildren().addAll(new Label(""), new Label("KOALA NUMERO: " + (i + 1)),
