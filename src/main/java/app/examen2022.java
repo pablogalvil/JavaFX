@@ -122,13 +122,32 @@ public class examen2022 extends Application {
 				});
 
 				btnConfirm.setOnAction(event -> {
-					alertaColor(new Label(txtNombre.getText()), new Label(txtNickGuerra.getText()),
-							new Label(txtEdad.getText()), new Label(txtAltura.getText()),
-							new Label(txtNivelMalaLeche.getText()), new Label(txtNumHuevos.getText()));
-					AvestruzDO temp = new AvestruzDO(avestruces.get(num).getIdAvestruz(), txtNombre.getText(),
-							txtNickGuerra.getText(), Integer.valueOf(txtEdad.getText()),
-							Integer.valueOf(txtAltura.getText()), Integer.valueOf(txtNivelMalaLeche.getText()),
-							Integer.valueOf(txtNumHuevos.getText()));
+					int id = avestruces.get(num).getIdAvestruz();
+					String nombre = txtNombre.getText();
+					String nick = txtNickGuerra.getText();
+					int edad = 0;
+					int altura = 0;
+					int malaLeche = 0;
+					int huevos = 0;
+					try {
+						edad = Integer.valueOf(txtEdad.getText());
+						altura = Integer.valueOf(txtAltura.getText());
+						malaLeche = Integer.valueOf(txtNivelMalaLeche.getText());
+						huevos = Integer.valueOf(txtNumHuevos.getText());
+					} catch (NumberFormatException nfe) {
+						Alert alerta = new Alert(AlertType.ERROR);
+						alerta.setTitle("Error!");
+						alerta.setHeaderText(null);
+						alerta.setContentText("Introduzca un número entero");
+						alerta.show();
+						return;
+					}
+
+					alertaColor(new Label(nombre), new Label(nick), new Label(String.valueOf(edad)),
+							new Label(String.valueOf(altura)), new Label(String.valueOf(malaLeche)),
+							new Label(String.valueOf(huevos)));
+
+					AvestruzDO temp = new AvestruzDO(id, nombre, nick, edad, altura, malaLeche, huevos);
 
 					if (AvestruzDAO.insertAvestruz(temp, con)) {
 						tabPane.getTabs().remove(editar);
