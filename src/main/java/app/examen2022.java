@@ -20,6 +20,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class examen2022 extends Application {
@@ -121,6 +122,9 @@ public class examen2022 extends Application {
 				});
 
 				btnConfirm.setOnAction(event -> {
+					alertaColor(new Label(txtNombre.getText()), new Label(txtNickGuerra.getText()),
+							new Label(txtEdad.getText()), new Label(txtAltura.getText()),
+							new Label(txtNivelMalaLeche.getText()), new Label(txtNumHuevos.getText()));
 					AvestruzDO temp = new AvestruzDO(avestruces.get(num).getIdAvestruz(), txtNombre.getText(),
 							txtNickGuerra.getText(), Integer.valueOf(txtEdad.getText()),
 							Integer.valueOf(txtAltura.getText()), Integer.valueOf(txtNivelMalaLeche.getText()),
@@ -149,6 +153,39 @@ public class examen2022 extends Application {
 		infoAlert.setHeaderText("Confirma los cambios.");
 		infoAlert.setContentText("Antes de cambiar un tipo de dato, cambia los datos.");
 		infoAlert.showAndWait();
+	}
+
+	public void alertaColor(Label nombre, Label nickGuerra, Label edad, Label altura, Label nivelMalaLeche,
+			Label numHuevos) {
+		Stage stageColor = new Stage();
+
+		VBox panelColor = new VBox();
+
+		panelColor.getChildren().addAll(nombre, nickGuerra, edad, altura, nivelMalaLeche, numHuevos);
+
+		nombre.setFont(new Font("Arial", 30));
+		nombre.setStyle("-fx-text-fill: #FF3408");
+
+		nickGuerra.setFont(new Font("Arial", 25));
+		nickGuerra.setStyle("-fx-text-fill: #80FF08");
+
+		edad.setFont(new Font("Arial", 20));
+		edad.setStyle("-fx-text-fill: #08FFBF");
+
+		altura.setFont(new Font("Arial", 35));
+		altura.setStyle("-fx-text-fill: #0831FF");
+
+		nivelMalaLeche.setFont(new Font("Arial", 40));
+		nivelMalaLeche.setStyle("-fx-text-fill: #A108FF");
+
+		nombre.setFont(new Font("Arial", 15));
+		numHuevos.setStyle("-fx-text-fill: #6C6C6C");
+
+		Scene sceneColor = new Scene(panelColor, 300, 300);
+
+		stageColor.setTitle("Nuevos valores");
+		stageColor.setScene(sceneColor);
+		stageColor.show();
 	}
 
 	public static void main(String[] args) {
